@@ -3,6 +3,7 @@ package network
 import logInfo
 import java.net.Socket
 import java.util.*
+import Nation
 
 class Client(
   private val socket: Socket,
@@ -15,6 +16,7 @@ class Client(
   private var isRunning = true
 
   val uuid = UUID.randomUUID().toString()
+  var nation: Nation? = null
 
   init {
     logInfo("New client -> ${socket.inetAddress.hostAddress}")

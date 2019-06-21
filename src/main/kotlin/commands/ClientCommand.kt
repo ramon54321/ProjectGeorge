@@ -28,5 +28,5 @@ sealed class ClientCommand {
 
   @Serializable data class Unknown(override var clientId: String, val type: String, val json: String) : ClientCommand()
   @Serializable data class Malformed(override var clientId: String, val type: String, val json: String) : ClientCommand()
-  @Serializable data class PlayerInfo(val nation: String) : ClientCommand()
+  @Serializable data class PlayerInfo(val nationName: String) : ClientCommand()
 }

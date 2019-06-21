@@ -5,6 +5,7 @@ plugins {
   kotlin("jvm").version("1.3.30")
   application
   id("kotlinx-serialization").version("1.3.30")
+  id("org.jetbrains.dokka").version("0.9.18")
 }
 
 group = "org.ramonbrand"
