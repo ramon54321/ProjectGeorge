@@ -21,28 +21,32 @@ object Server {
   private var isRunning = true
 
   init {
-    thread {
+    thread(name = "Server Listener") {
       logInfo("Running server on $PORT")
 
       while (isRunning) {
         val clientSocket = server.accept()
 
-        thread(name = "network.Client Manager") {
+        thread(name = "Client Manager") {
           Client(clientSocket, onOpen = {
             clients[it.uuid] = it
             onClientConnected.onNext(EventOnClientConnected(it))
-            logInfo("network.Client added -> $clients")
+            logInfo("Client added -> $clients")
           }, onClose = {
             clients.remove(it.uuid)
             onClientDisconnected.onNext(EventOnClientDisconnected(it))
-            logInfo("network.Client removed -> $clients")
+            logInfo("Client removed -> $clients")
           })
         }
       }
 
-      logInfo("network.Server stopped")
+      logInfo("Server stopped")
     }
-    logInfo("network.Server listener dispatched")
+    logInfo("Server listener dispatched")
+  }
+
+  fun getClientIds(): Set<String> {
+    return clients.keys
   }
 
   fun getClientById(clientId: String): Client? {

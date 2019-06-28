@@ -1,19 +1,15 @@
+package core
+
 import io.reactivex.subjects.PublishSubject
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.Transient
-import kotlinx.serialization.UnstableDefault
 import math.Vector2i
 import network.Client
 import network.Server
-import world.Hex
 
 data class EventOnAddHexToNation(val nation: Nation, val hex: Hex)
 data class EventOnRemoveHexFromNation(val nation: Nation, val hex: Hex)
 
-@UnstableDefault
-@Serializable
 class Nation(val name: String) {
-  @Transient val clients = mutableListOf<Client>()
+  val clients = mutableListOf<Client>()
 
   companion object {
     val onAddHexToNation = PublishSubject.create<EventOnAddHexToNation>()
@@ -32,6 +28,7 @@ class Nation(val name: String) {
   }
 
   fun addHex(hex: Hex) {
+    hex.nationNames.add(name)
     onAddHexToNation.onNext(EventOnAddHexToNation(this, hex))
   }
 
@@ -41,6 +38,7 @@ class Nation(val name: String) {
   }
 
   fun removeHex(hex: Hex) {
+    hex.nationNames.remove(name)
     onRemoveHexFromNation.onNext(EventOnRemoveHexFromNation(this, hex))
   }
 }

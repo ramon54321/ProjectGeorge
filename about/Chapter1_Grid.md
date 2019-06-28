@@ -21,7 +21,9 @@ Neighbouring hexes are deducible given the position as follows.
  
  Where `isEven = y % 2 == 0`
  
- #### Data Organization
+ #### Hex Organization
+ 
+ Hex data is only referenced from the `World` instance in the `State` object.
  
  Hexes are identified by their position, which is used as the key in the main structure. All other structures, index by another property, refer only to the position and **NOT** the hex itself.
  

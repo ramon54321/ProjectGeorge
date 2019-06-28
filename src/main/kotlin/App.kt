@@ -1,20 +1,42 @@
 import commands.*
+import core.Jobs
+import core.State
+import core.Ticker
 import kotlinx.serialization.UnstableDefault
 import math.Vector2i
 import network.Server
+import systems.weather.JobWeather
+import kotlin.system.measureNanoTime
 
 const val PORT = 8999
 const val TICK_RATE = 1
+const val TICKER_DELAY = 100L
 const val RANDOM_SEED = 67
-const val WORLD_WIDTH = 3
-const val WORLD_HEIGHT = 3
+const val WORLD_WIDTH = 2
+const val WORLD_HEIGHT = 2
+
+fun test() {
+  val time = measureNanoTime {
+    (1..10000).forEach {
+      State.toJson()
+    }
+  }
+  println("Time: ${time/1000000}")
+}
 
 @UnstableDefault
 fun main(args: Array<String>) {
 
+//  test()
+  start()
+
+}
+
+@UnstableDefault
+fun start() {
   logInfo("Init Start")
 
-  logDebug("Starting State: ${State.getJson()}")
+  logDebug("Starting State: ${State.toJson()}")
 
   Server.onClientConnected.subscribe {
 
@@ -35,26 +57,29 @@ fun main(args: Array<String>) {
 
   Ticker.onStart.subscribe {
     logInfo("Ticker Start")
+    Jobs.addJob(JobWeather())
   }
 
   Ticker.onTick.subscribe {
-    if(it.count < 15) {
-      logDebug("Debug Tick: ${it.count}")
-    }
+    logInfo("Jobs: ${Jobs.getJobCount()}")
+
+    Jobs.executeJobs()
 
     if(it.count == 7L) {
+      // Fake action causing hexes to be added to nation
       State.getNationByName("Valkland")?.addHex(Vector2i(1,2))
       State.getNationByName("Valkland")?.addHex(Vector2i(2,2))
     }
 
     if(it.count == 10L) {
-      logDebug(State.getJson())
-      logDebug(State.getHexesByNationName("Valkland").toString())
+      logDebug(State.toJson())
     }
+
+    broadcastServerCommand(ServerCommand.FullState(State.toJson()))
   }
 
   Ticker.onEnd.subscribe {
-    logInfo("Ticker End")
+    logInfo("core.Ticker End")
   }
 
   Commands.onCommand.ofType(ClientCommand.PlayerInfo::class.java).subscribe {

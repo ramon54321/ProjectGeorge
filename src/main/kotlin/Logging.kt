@@ -1,17 +1,21 @@
 import com.importre.crayon.*
 
+fun buildMessage(message: String): String {
+  return "[GAME] [${Thread.currentThread().name}] ${message}"
+}
+
 fun logDebug(message: String) {
-  println("[GAME] ${message}".blue())
+  println(buildMessage(message).blue())
 }
 
 fun logInfo(message: String) {
-  println("[GAME] ${message}".white())
+  println(buildMessage(message).white())
 }
 
 fun logWarning(message: String) {
-  println("[GAME] ${message}".yellow())
+  println(buildMessage(message).yellow())
 }
 
 fun logError(message: String) {
-  println("[GAME] ${message}".red())
+  println(buildMessage(message).red())
 }

@@ -1,9 +1,9 @@
 package network
 
+import core.Nation
 import logInfo
 import java.net.Socket
 import java.util.*
-import Nation
 
 class Client(
   private val socket: Socket,
@@ -32,7 +32,7 @@ class Client(
       }
     }
 
-    logInfo("network.Client stopped")
+    logInfo("Client stopped")
   }
 
   fun send(message: String) {

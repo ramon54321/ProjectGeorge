@@ -1,21 +1,22 @@
-package world
+package core
 
+import Utils
 import WORLD_HEIGHT
 import WORLD_WIDTH
-import kotlinx.serialization.Serializable
 import kotlinx.serialization.UnstableDefault
 import math.Vector2i
+import systems.weather.Weather
+import java.util.*
 
-@UnstableDefault
-@Serializable
 class World {
-  val hexByPosition: MutableMap<Vector2i, Hex> = mutableMapOf()
+  val hexByPosition: SortedMap<Vector2i, Hex> = sortedMapOf()
   val hexPositionsByNationName: MutableMap<String, MutableSet<Vector2i>> = mutableMapOf()
 
   init {
     for (y in 0..WORLD_HEIGHT) {
       for (x in 0..WORLD_WIDTH) {
-        hexByPosition[Vector2i(x, y)] = Hex(Vector2i(x, y), Utils.random.nextInt(0, 10))
+        hexByPosition[Vector2i(x, y)] =
+          Hex(Vector2i(x, y), Utils.random.nextInt(0, 10), Weather(Utils.random.nextFloat() * 30, Utils.random.nextFloat()))
       }
     }
 
