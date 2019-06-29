@@ -30,8 +30,8 @@ object State : Jsonable {
   }
 
   fun forEachHex(f: (hex: Hex) -> Unit) {
-    for (y in 0..WORLD_HEIGHT) {
-      for (x in 0..WORLD_WIDTH) {
+    for (y in 0 until WORLD_HEIGHT) {
+      for (x in 0 until WORLD_WIDTH) {
         val hex = getHexByPosition(Vector2i(x, y))
         if (hex != null) f.invoke(hex)
       }
@@ -39,8 +39,8 @@ object State : Jsonable {
   }
 
   fun forEachHexPosition(f: (position: Vector2i) -> Unit) {
-    for (y in 0..WORLD_HEIGHT) {
-      for (x in 0..WORLD_WIDTH) {
+    for (y in 0 until WORLD_HEIGHT) {
+      for (x in 0 until WORLD_WIDTH) {
         f.invoke(Vector2i(x, y))
       }
     }
@@ -52,6 +52,8 @@ object State : Jsonable {
 
     return """
       {
+        "worldWidth":$WORLD_WIDTH,
+        "worldHeight":$WORLD_HEIGHT,
         $hexByPosition,
         $hexPositionsByNationName
       }

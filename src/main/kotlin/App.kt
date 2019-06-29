@@ -12,8 +12,8 @@ const val PORT = 8999
 const val TICK_RATE = 1
 const val TICKER_DELAY = 100L
 const val RANDOM_SEED = 67
-const val WORLD_WIDTH = 2
-const val WORLD_HEIGHT = 2
+const val WORLD_WIDTH = 5
+const val WORLD_HEIGHT = 5
 
 fun test() {
   val time = measureNanoTime {
@@ -67,8 +67,8 @@ fun start() {
 
     if(it.count == 7L) {
       // Fake action causing hexes to be added to nation
-      State.getNationByName("Valkland")?.addHex(Vector2i(1,2))
-      State.getNationByName("Valkland")?.addHex(Vector2i(2,2))
+      State.getNationByName("Valkland")?.addHex(Vector2i(1,1))
+      State.getNationByName("Valkland")?.addHex(Vector2i(1,0))
     }
 
     if(it.count == 10L) {

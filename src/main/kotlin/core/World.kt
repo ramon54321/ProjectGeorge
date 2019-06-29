@@ -13,8 +13,8 @@ class World {
   val hexPositionsByNationName: MutableMap<String, MutableSet<Vector2i>> = mutableMapOf()
 
   init {
-    for (y in 0..WORLD_HEIGHT) {
-      for (x in 0..WORLD_WIDTH) {
+    for (y in 0 until WORLD_HEIGHT) {
+      for (x in 0 until WORLD_WIDTH) {
         hexByPosition[Vector2i(x, y)] =
           Hex(Vector2i(x, y), Utils.random.nextInt(0, 10), Weather(Utils.random.nextFloat() * 30, Utils.random.nextFloat()))
       }
